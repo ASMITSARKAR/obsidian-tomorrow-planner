@@ -1,4 +1,4 @@
-# Tomorrow Daily Note (`obsidian-tomorrow-planner`)
+# Tomorrow Daily Note (`tomorrow-daily-note`)
 
 An Obsidian Community Plugin that lets you seamlessly create or open tomorrow's (or +N days) daily note ahead of time — with zero accidental overwrites and full template token substitution.
 
@@ -22,7 +22,7 @@ Obsidian's core **Daily Notes** and **Periodic Notes** plugins are designed for 
 ### Manual Installation
 1. Download `main.js` and `manifest.json` from the latest release.
 2. In your Obsidian vault, navigate to `.obsidian/plugins/`.
-3. Create a folder named `obsidian-tomorrow-planner`.
+3. Create a folder named `tomorrow-daily-note`.
 4. Copy `main.js` and `manifest.json` into that folder.
 5. In Obsidian, go to **Settings > Community plugins**, reload, and enable **Tomorrow Daily Note**.
 

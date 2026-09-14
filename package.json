@@ -1,6 +1,6 @@
 {
-  "name": "obsidian-tomorrow-planner",
-  "version": "1.0.0",
+  "name": "tomorrow-daily-note",
+  "version": "1.0.1",
   "description": "Create or open tomorrow's (or +N days) daily note ahead of time with zero overwrites and full template token substitution.",
   "main": "main.js",
   "scripts": {

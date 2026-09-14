@@ -1,7 +1,7 @@
 {
-  "id": "obsidian-tomorrow-planner",
+  "id": "tomorrow-daily-note",
   "name": "Tomorrow Daily Note",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "0.15.0",
   "description": "Create or open tomorrow's (or +N days) daily note ahead of time with zero overwrites and full template token substitution.",
   "author": "Asmit Sarkar",
