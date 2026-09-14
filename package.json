@@ -1,0 +1,28 @@
+{
+  "name": "obsidian-tomorrow-planner",
+  "version": "1.0.0",
+  "description": "Create or open tomorrow's (or +N days) daily note ahead of time with zero overwrites and full template token substitution.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "test": "node build-and-run-tests.mjs"
+  },
+  "keywords": [
+    "obsidian",
+    "obsidian-plugin",
+    "daily-notes",
+    "tomorrow",
+    "planner",
+    "productivity"
+  ],
+  "author": "Antigravity",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.25.0",
+    "obsidian": "latest",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.3"
+  }
+}
