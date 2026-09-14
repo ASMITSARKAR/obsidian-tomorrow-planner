@@ -83,5 +83,8 @@ npm run dev
 npm run test
 ```
 
+## Author
+Created by **Asmit Sarkar** ([GitHub: @ASMITSARKAR](https://github.com/ASMITSARKAR))
+
 ## License
-MIT License
+MIT License - Copyright (c) 2026 Asmit Sarkar. See [LICENSE](LICENSE) for details.

@@ -16,7 +16,7 @@
     "planner",
     "productivity"
   ],
-  "author": "Antigravity",
+  "author": "Asmit Sarkar <sarkarrocks2006@gmail.com> (https://github.com/ASMITSARKAR)",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.0.0",
