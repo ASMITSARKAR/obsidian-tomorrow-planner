@@ -12,14 +12,14 @@ export default class TomorrowDailyNotePlugin extends Plugin {
     this.noteManager = new NoteManager(this.app, () => this.settings);
 
     // Register ribbon icon
-    this.addRibbonIcon("calendar-plus", "Open tomorrow daily note", async () => {
+    this.addRibbonIcon("calendar-plus", "Open tomorrow's note", async () => {
       await this.noteManager.createOrOpenTomorrowDailyNote();
     });
 
     // Register command palette entry
     this.addCommand({
-      id: "open-tomorrow-daily-note",
-      name: "Open tomorrow daily note",
+      id: "open",
+      name: "Open tomorrow's note",
       callback: async () => {
         await this.noteManager.createOrOpenTomorrowDailyNote();
       },
@@ -34,7 +34,8 @@ export default class TomorrowDailyNotePlugin extends Plugin {
   }
 
   async loadSettings(): Promise<void> {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    const loadedData = (await this.loadData()) as Partial<TomorrowPluginSettings> | null;
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, loadedData ?? {});
   }
 
   async saveSettings(): Promise<void> {

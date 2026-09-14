@@ -28,7 +28,7 @@ export class TomorrowSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Tomorrow Daily Note Settings" });
+    new Setting(containerEl).setName("Tomorrow Daily Note Settings").setHeading();
 
     // Date format setting with live preview
     let previewEl: HTMLElement;
@@ -45,11 +45,11 @@ export class TomorrowSettingTab extends PluginSettingTab {
     };
 
     const dateFormatDesc = document.createDocumentFragment();
-    dateFormatDesc.append(
-      "Format used for the note file title and the {{date}} template token. ",
-      document.createElement("br"),
-      "Live preview: "
+    dateFormatDesc.appendText(
+      "Format used for the note file title and the {{date}} template token. "
     );
+    dateFormatDesc.createEl("br");
+    dateFormatDesc.appendText("Live preview: ");
     previewEl = dateFormatDesc.createEl("strong", {
       text: "",
       cls: "u-pop",

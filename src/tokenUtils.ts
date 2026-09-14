@@ -2,17 +2,13 @@ import { moment } from "obsidian";
 
 /**
  * Returns a moment instance representing the current moment.
- * Prioritizes window.moment if running inside Obsidian, or Obsidian's moment import.
  */
 export function getNowMoment(): moment.Moment {
-  if (typeof window !== "undefined" && typeof (window as unknown as { moment?: () => moment.Moment }).moment === "function") {
-    return (window as unknown as { moment: () => moment.Moment }).moment();
-  }
   return moment();
 }
 
 /**
- * Computes the target offset date using window.moment().add(offsetDays, 'days').
+ * Computes the target offset date using moment().add(offsetDays, 'days').
  * @param offsetDays Number of days to offset from today (1 for tomorrow, etc.)
  */
 export function computeTargetMoment(offsetDays: number): moment.Moment {
@@ -37,20 +33,20 @@ export function substituteTokens(options: SubstituteTokensOptions): string {
     return "";
   }
 
-  const now = referenceTime ?? getNowMoment();
+  const now: moment.Moment = referenceTime ?? getNowMoment();
   let result = templateContent;
 
   // Replace {{title}} respecting backslash parity (even backslashes = evaluate, odd = escaped)
   result = result.replace(
     /(^|[^\\])((?:\\\\)*)\{\{\s*title\s*\}\}/gi,
-    (_match, prefix, backslashes) => prefix + backslashes + title
+    (_match: string, prefix: string, backslashes: string): string => prefix + backslashes + title
   );
 
   // Replace {{date}} and {{date:FORMAT}} respecting backslash parity
   result = result.replace(
     /(^|[^\\])((?:\\\\)*)\{\{\s*date(?:\s*:\s*([^}\n\r]+?)\s*)?\s*\}\}/gi,
-    (_match, prefix, backslashes, customFormat) => {
-      const formatToUse = customFormat && customFormat.trim() ? customFormat.trim() : dateFormat;
+    (_match: string, prefix: string, backslashes: string, customFormat?: string): string => {
+      const formatToUse: string = customFormat && customFormat.trim() ? customFormat.trim() : dateFormat;
       let formattedDate: string;
       try {
         formattedDate = targetMoment.format(formatToUse);
@@ -64,8 +60,8 @@ export function substituteTokens(options: SubstituteTokensOptions): string {
   // Replace {{time}} and {{time:FORMAT}} respecting backslash parity
   result = result.replace(
     /(^|[^\\])((?:\\\\)*)\{\{\s*time(?:\s*:\s*([^}\n\r]+?)\s*)?\s*\}\}/gi,
-    (_match, prefix, backslashes, customFormat) => {
-      const formatToUse = customFormat && customFormat.trim() ? customFormat.trim() : "HH:mm";
+    (_match: string, prefix: string, backslashes: string, customFormat?: string): string => {
+      const formatToUse: string = customFormat && customFormat.trim() ? customFormat.trim() : "HH:mm";
       let formattedTime: string;
       try {
         formattedTime = now.format(formatToUse);
