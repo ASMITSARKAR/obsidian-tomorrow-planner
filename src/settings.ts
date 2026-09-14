@@ -28,9 +28,7 @@ export class TomorrowSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    new Setting(containerEl).setName("Tomorrow Daily Note Settings").setHeading();
-
-    // Date format setting with live preview
+    // Date format setting with live preview on descEl (no document.createElement or document.createDocumentFragment)
     let previewEl: HTMLElement;
 
     const updatePreview = () => {
@@ -44,21 +42,8 @@ export class TomorrowSettingTab extends PluginSettingTab {
       }
     };
 
-    const dateFormatDesc = document.createDocumentFragment();
-    dateFormatDesc.appendText(
-      "Format used for the note file title and the {{date}} template token. "
-    );
-    dateFormatDesc.createEl("br");
-    dateFormatDesc.appendText("Live preview: ");
-    previewEl = dateFormatDesc.createEl("strong", {
-      text: "",
-      cls: "u-pop",
-    });
-    updatePreview();
-
-    new Setting(containerEl)
+    const dateFormatSetting = new Setting(containerEl)
       .setName("Date format")
-      .setDesc(dateFormatDesc)
       .addText((text) =>
         text
           .setPlaceholder(DEFAULT_SETTINGS.dateFormat)
@@ -69,6 +54,17 @@ export class TomorrowSettingTab extends PluginSettingTab {
             await this.plugin.saveSettings();
           })
       );
+
+    dateFormatSetting.descEl.createSpan({
+      text: "Format used for the note file title and the {{date}} template token. ",
+    });
+    dateFormatSetting.descEl.createEl("br");
+    dateFormatSetting.descEl.appendText("Live preview: ");
+    previewEl = dateFormatSetting.descEl.createEl("strong", {
+      text: "",
+      cls: "u-pop",
+    });
+    updatePreview();
 
     // Offset days setting
     new Setting(containerEl)

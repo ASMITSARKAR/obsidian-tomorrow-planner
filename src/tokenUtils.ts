@@ -1,10 +1,13 @@
 import { moment } from "obsidian";
 
+// Type-safe callable Moment creator to prevent @typescript-eslint/no-unsafe-return
+const getMoment: () => moment.Moment = moment as unknown as () => moment.Moment;
+
 /**
  * Returns a moment instance representing the current moment.
  */
 export function getNowMoment(): moment.Moment {
-  return moment();
+  return getMoment();
 }
 
 /**
@@ -34,7 +37,7 @@ export function substituteTokens(options: SubstituteTokensOptions): string {
   }
 
   const now: moment.Moment = referenceTime ?? getNowMoment();
-  let result = templateContent;
+  let result: string = templateContent;
 
   // Replace {{title}} respecting backslash parity (even backslashes = evaluate, odd = escaped)
   result = result.replace(
