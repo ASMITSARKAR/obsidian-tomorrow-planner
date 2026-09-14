@@ -104,6 +104,30 @@ describe("tokenUtils", () => {
       assert.equal(result, expected);
     });
 
+    it("should correctly handle double escapes and backslash parity", () => {
+      const template =
+        "Single escape: \\{{title}}\n" +
+        "Double escape: \\\\{{title}}\n" +
+        "Triple escape: \\\\\\{{title}}\n" +
+        "Quad escape: \\\\\\\\{{title}}";
+
+      const result = substituteTokens({
+        templateContent: template,
+        targetMoment: fixedTarget,
+        dateFormat: "DD-MM-YYYY",
+        title: "15-09-2026",
+        referenceTime: fixedNow,
+      });
+
+      const expected =
+        "Single escape: {{title}}\n" +
+        "Double escape: \\\\15-09-2026\n" +
+        "Triple escape: \\\\{{title}}\n" +
+        "Quad escape: \\\\\\\\15-09-2026";
+
+      assert.equal(result, expected);
+    });
+
     it("should ensure {{date}} uses target offset date while {{time}} uses current system clock", () => {
       const template = "Target: {{date:YYYY-MM-DD}} | CreatedAt: {{time:HH:mm}}";
       const tomorrow = momentLib("2026-09-15 14:00:00");

@@ -40,36 +40,43 @@ export function substituteTokens(options: SubstituteTokensOptions): string {
   const now = referenceTime ?? getNowMoment();
   let result = templateContent;
 
-  // Replace unescaped {{title}}
-  result = result.replace(/(?<!\\)\{\{\s*title\s*\}\}/gi, () => title);
-
-  // Replace unescaped {{date}} and {{date:FORMAT}}
+  // Replace {{title}} respecting backslash parity (even backslashes = evaluate, odd = escaped)
   result = result.replace(
-    /(?<!\\)\{\{\s*date(?:\s*:\s*([^}\n\r]+?)\s*)?\s*\}\}/gi,
-    (_match, customFormat) => {
+    /(^|[^\\])((?:\\\\)*)\{\{\s*title\s*\}\}/gi,
+    (_match, prefix, backslashes) => prefix + backslashes + title
+  );
+
+  // Replace {{date}} and {{date:FORMAT}} respecting backslash parity
+  result = result.replace(
+    /(^|[^\\])((?:\\\\)*)\{\{\s*date(?:\s*:\s*([^}\n\r]+?)\s*)?\s*\}\}/gi,
+    (_match, prefix, backslashes, customFormat) => {
       const formatToUse = customFormat && customFormat.trim() ? customFormat.trim() : dateFormat;
+      let formattedDate: string;
       try {
-        return targetMoment.format(formatToUse);
+        formattedDate = targetMoment.format(formatToUse);
       } catch {
-        return targetMoment.format(dateFormat);
+        formattedDate = targetMoment.format(dateFormat);
       }
+      return prefix + backslashes + formattedDate;
     }
   );
 
-  // Replace unescaped {{time}} and {{time:FORMAT}}
+  // Replace {{time}} and {{time:FORMAT}} respecting backslash parity
   result = result.replace(
-    /(?<!\\)\{\{\s*time(?:\s*:\s*([^}\n\r]+?)\s*)?\s*\}\}/gi,
-    (_match, customFormat) => {
+    /(^|[^\\])((?:\\\\)*)\{\{\s*time(?:\s*:\s*([^}\n\r]+?)\s*)?\s*\}\}/gi,
+    (_match, prefix, backslashes, customFormat) => {
       const formatToUse = customFormat && customFormat.trim() ? customFormat.trim() : "HH:mm";
+      let formattedTime: string;
       try {
-        return now.format(formatToUse);
+        formattedTime = now.format(formatToUse);
       } catch {
-        return now.format("HH:mm");
+        formattedTime = now.format("HH:mm");
       }
+      return prefix + backslashes + formattedTime;
     }
   );
 
-  // Unescape any deliberately escaped braces (e.g. \{\{date\}\} -> {{date}})
+  // Unescape any deliberately escaped braces (e.g. \{{date}} -> {{date}})
   result = result.replace(/\\\{/g, "{").replace(/\\\}/g, "}");
 
   return result;
